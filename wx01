@@ -1,0 +1,57 @@
+import wx
+
+
+class TextEditor(wx.Frame):
+    def __init__(self, parent, title):
+        super().__init__(parent, title=title, size=(800, 600))
+        self.InitUI()
+        self.Centre()
+        self.Show()
+
+    def InitUI(self):
+        menubar = wx.MenuBar()
+        fileMenu = wx.Menu()
+        fileMenu.Append(wx.ID_NEW, '&New')
+        fileMenu.Append(wx.ID_OPEN, '&Open')
+        fileMenu.Append(wx.ID_SAVE, '&Save')
+        fileMenu.AppendSeparator()
+        fileMenu.Append(wx.ID_EXIT, '&Quit')
+        menubar.Append(fileMenu, '&File')
+        self.SetMenuBar(menubar)
+
+        self.toolbar = self.CreateToolBar()
+        self.toolbar.AddTool(wx.ID_NEW, 'New', wx.Bitmap('icons/new.png'))
+        self.toolbar.AddTool(wx.ID_OPEN, 'Open', wx.Bitmap('icons/open.png'))
+        self.toolbar.AddTool(wx.ID_SAVE, 'Save', wx.Bitmap('icons/save.png'))
+        self.toolbar.AddSeparator()
+        self.toolbar.AddTool(wx.ID_CUT, 'Cut', wx.Bitmap('icons/cut.png'))
+        self.toolbar.AddTool(wx.ID_COPY, 'Copy', wx.Bitmap('icons/copy.png'))
+        self.toolbar.AddTool(wx.ID_PASTE, 'Paste', wx.Bitmap('icons/paste.png'))
+        self.toolbar.AddSeparator()
+        self.toolbar.AddTool(wx.ID_UNDO, 'Undo', wx.Bitmap('icons/undo.png'))
+        self.toolbar.AddTool(wx.ID_REDO, 'Redo', wx.Bitmap('icons/redo.png'))
+        self.toolbar.AddSeparator()
+        self.toolbar.AddTool(wx.ID_BOLD, 'Bold', wx.Bitmap('icons/bold.png'))
+        self.toolbar.AddTool(wx.ID_ITALIC, 'Italic', wx.Bitmap('icons/italic.png'))
+        self.toolbar.AddTool(wx.ID_UNDERLINE, 'Underline', wx.Bitmap('icons/underline.png'))
+        self.toolbar.AddSeparator()
+        self.toolbar.AddTool(wx.ID_SELECTALL, 'Select All', wx.Bitmap('icons/select_all.png'))
+        self.toolbar.Realize()
+
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        hbox1 = wx.BoxSizer(wx.HORIZONTAL)
+        self.filename_label = wx.StaticText(self, label='No file selected')
+        hbox1.Add(self.filename_label, flag=wx.ALIGN_CENTER_VERTICAL)
+        hbox1.AddStretchSpacer()
+        self.font_button = wx.Button(self, label='Font')
+        self.Bind(wx.EVT_BUTTON, self.OnFont, self.font_button)
+        hbox1.Add(self.font_button)
+        vbox.Add(hbox1, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=5)
+
+        self.text_ctrl = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        vbox.Add(self.text_ctrl, proportion=1, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, border=5)
+
+        self.SetSizer(vbox)
+
+        self.Bind(wx.EVT_MENU, self.OnNew, id=wx.ID_NEW)
+        self.Bind
